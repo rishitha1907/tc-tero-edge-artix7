@@ -18,7 +18,6 @@ The design targets the EDGE Artix-7 board with an XC7A35T-1FTG256C FPGA. The int
 - [Run the experiments](#run-the-experiments)
 - [NIST SP 800-22 optional test](#nist-sp-800-22-optional-test)
 - [Troubleshooting](#troubleshooting)
-- [Generated files and GitHub](#generated-files-and-github)
 - [Paper reference and acknowledgements](#paper-reference-and-acknowledgements)
 
 ## Project status and measured results
@@ -139,7 +138,7 @@ From the repository root, install the host packages:
 python -m pip install -r requirements.txt
 ```
 
-The `requirements.txt` file should list `pyserial`, `numpy`, `scipy`, and `matplotlib`.
+The host tools use `pyserial`, `numpy`, `scipy`, and `matplotlib`.
 
 ## Setup the board and PC
 
@@ -407,31 +406,14 @@ Parameter behavior can drift between runs and operating conditions; small numeri
 | AIS-31 fails | Try another candidate parameter and rerun the measurement; failures can occur for a candidate on a given chip. |
 | NIST reports missing result directories | Run the STS `create-dir-script` from its `experiments/` directory. |
 
-## Record results and screenshots
+## Generated outputs
 
-Keep a run log in `docs/results.md` with at least:
+Vivado creates project, cache, implementation, report, and bitstream files during a build. The host scripts create search, counter, and random-bit capture files during experiments. These are local run outputs; they are not needed to understand the source design. The report summarizes the measurements from the documented run.
 
-- Board and FPGA part number.
-- Vivado version, loop type, parameter, placement origin, and bitstream/run identifier.
-- Exact command, input capture, date, and operating conditions if known.
-- Search range and usable-parameter rule.
-- Counter sample count, mean, standard deviation, and saturation count.
-- AIS-31 and NIST versions, test settings, and summary outputs.
-- Utilization and throughput measurements.
-
-Useful evidence screenshots include hierarchical utilization, timing summary, implemented device view with pblock at `SLICE_X4Y16`, ring schematic showing LUTs/F7MUXes, Hardware Manager with the device programmed, and a clear board photo with LEDs lit. Do not include photos that expose personal information or unrelated setup details.
-
-## Generated files and GitHub
-
-Commit RTL, constraints, scripts, host tools, documentation, and small result summaries. Keep machine-generated and large data out of Git unless there is a specific reason and the repository can host them:
-
-- Vivado cache, project, and run directories (`.Xil/`, `.runs/`, `.cache/`, generated project folders).
-- Bitstreams and programming files (`*.bit`, `*.ltx`).
-- Large raw parameter-search, counter, and TRNG captures (for example, multi-megabyte `.bin` files).
-- Temporary logs, Python virtual environments, and editor files.
-
-Use `.gitignore` for those paths. If you share a small data sample, identify its origin, board, parameter, and purpose in the repository. Add a `LICENSE` file before publishing and choose a license only after confirming you have the right to distribute all included source and assets. Credit the paper and any third-party code or data you reuse.
-
+For experiments of your own, interpret the results with the board, placement origin, parameter, and run conditions in mind. TERO output can change between devices and runs.
 ## Paper reference and acknowledgements
 
-This project reimplements and evaluates selected aspects of *On the Feasibility of TERO-based TRNG on Xilinx FPGAs* (FPL 2020). Consult the paper for its original design and reported baselines. This repository is an independent board port and experimental reproduction; it does not claim identical results or endorsement by the paper's authors.
+This project reimplements and evaluates selected aspects of *On the Feasibility of TERO-based TRNG on Xilinx FPGAs* (FPL 2020). Consult the paper for its original design and reported baselines. This repository is an independent board port and experimental reproduction. Results will vary by FPGA and operating conditions.
+
+
+
